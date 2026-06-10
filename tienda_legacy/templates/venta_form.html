@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>&#9632; {{ accion | upper }} VENTA</h2>
+
+<a href="/ventas" class="btn btn-new" style="background:#555;margin-bottom:10px;">&#8592; VOLVER AL LISTADO</a>
+
+<div class="form-table">
+    <form method="POST">
+        <table>
+            <tr>
+                <td><label>Producto:</label></td>
+                <td>
+                    <select name="producto_id" required style="width:240px;">
+                        <option value="">-- Seleccione --</option>
+                        {% for p in productos %}
+                            <option value="{{ p['id'] }}"
+                                {% if venta and venta['producto_id'] == p['id'] %}selected{% endif %}>
+                                [{{ p['id'] }}] {{ p['nombre'] }} (Stock: {{ p['stock'] }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Cantidad:</label></td>
+                <td><input type="number" name="cantidad" min="1" value="{{ venta['cantidad'] if venta else 1 }}" required></td>
+            </tr>
+            <tr>
+                <td><label>Precio Venta (Bs.):</label></td>
+                <td><input type="number" name="precio_venta" step="0.01" min="0" value="{{ venta['precio_venta'] if venta else '' }}" required></td>
+            </tr>
+            <tr>
+                <td><label>Fecha:</label></td>
+                <td><input type="date" name="fecha" value="{{ venta['fecha'] if venta else '' }}" required></td>
+            </tr>
+            <tr>
+                <td><label>Vendedor:</label></td>
+                <td>
+                    <select name="vendedor" style="width:240px;">
+                        {% for v in ['Juan Mamani','Carlos Quispe','María López','Pedro Flores','Ana Condori'] %}
+                            <option value="{{ v }}" {% if venta and venta['vendedor'] == v %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Cliente:</label></td>
+                <td><input type="text" name="cliente" value="{{ venta['cliente'] if venta else '' }}" maxlength="80" placeholder="Nombre o 'Al contado'"></td>
+            </tr>
+            <tr>
+                <td><label>Notas:</label></td>
+                <td><textarea name="notas">{{ venta['notas'] if venta else '' }}</textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit" class="btn btn-save">GUARDAR REGISTRO</button>
+                    <br><small style="color:#666;font-size:10px;">* El stock NO se actualiza automáticamente.<br>Actualícelo manualmente en la tabla de Productos.</small>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<br><br><br>
+{% endblock %}

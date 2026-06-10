@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SISTEMA INVENTARIO v1.0 - Tienda El Progreso</title>
+    <style>
+      /* Estilos escritos en 2009. Funcionan. No preguntes. */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        background-color: #d4d0c8;
+        color: #000000;
+      }
+      #header {
+        background: linear-gradient(to bottom, #003399, #0055cc);
+        color: white;
+        padding: 6px 12px;
+        border-bottom: 3px solid #ffcc00;
+      }
+      #header h1 {
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      #header small {
+        font-size: 10px;
+        color: #aaccff;
+      }
+      #navbar {
+        background: #003399;
+        padding: 0;
+        border-bottom: 2px solid #ffcc00;
+        display: flex;
+        align-items: center;
+      }
+      #navbar a {
+        color: #ffffff;
+        text-decoration: none;
+        padding: 7px 16px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        border-right: 1px solid #335599;
+      }
+      #navbar a:hover {
+        background: #ffcc00;
+        color: #000;
+      }
+      #content {
+        padding: 10px;
+      }
+      h2 {
+        font-size: 13px;
+        background: #003399;
+        color: white;
+        padding: 4px 8px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+      /* LA tabla. Sin scrollbar horizontal. Sin responsive. */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        font-size: 11px;
+      }
+      table th {
+        background: #003399;
+        color: white;
+        padding: 4px 6px;
+        text-align: left;
+        white-space: nowrap;
+        font-size: 11px;
+        border: 1px solid #335599;
+      }
+      table td {
+        padding: 3px 6px;
+        border: 1px solid #cccccc;
+        white-space: nowrap;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      table tr:nth-child(even) {
+        background-color: #eef0ff;
+      }
+      table tr:hover {
+        background-color: #ffffcc;
+      }
+      .btn {
+        padding: 2px 8px;
+        font-size: 11px;
+        cursor: pointer;
+        border: 1px solid #666;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-edit {
+        background: #ffcc00;
+        color: #000;
+      }
+      .btn-delete {
+        background: #cc0000;
+        color: #fff;
+      }
+      .btn-new {
+        background: #006600;
+        color: #fff;
+        margin-bottom: 8px;
+        padding: 4px 12px;
+        font-size: 12px;
+      }
+      .btn-save {
+        background: #003399;
+        color: #fff;
+        padding: 5px 20px;
+      }
+      .flash {
+        background: #ffffcc;
+        border: 1px solid #cc9900;
+        padding: 5px 10px;
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: #663300;
+      }
+      /* Formularios: funcionales, sin más */
+      .form-table {
+        background: white;
+        padding: 10px;
+        border: 1px solid #999;
+        width: 420px;
+      }
+      .form-table table {
+        border: none;
+      }
+      .form-table td {
+        border: none;
+        padding: 4px 6px;
+        white-space: normal;
+      }
+      .form-table input,
+      .form-table select,
+      .form-table textarea {
+        border: 1px solid #888;
+        padding: 2px 4px;
+        font-size: 12px;
+        width: 240px;
+      }
+      .form-table label {
+        font-weight: bold;
+        font-size: 11px;
+      }
+      .form-table textarea {
+        height: 50px;
+        resize: vertical;
+      }
+      #footer {
+        background: #003399;
+        color: #aaaacc;
+        text-align: center;
+        font-size: 10px;
+        padding: 4px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border-top: 2px solid #ffcc00;
+      }
+      .total-row {
+        font-size: 11px;
+        color: #333;
+        margin-top: 4px;
+        padding: 3px 6px;
+        background: #e8e8e8;
+        border: 1px solid #ccc;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <h1>&#9632; SISTEMA DE INVENTARIO v1.0 &mdash; TIENDA EL PROGRESO</h1>
+      <small
+        >Usuario: ADMIN &nbsp;|&nbsp; Servidor: DESKTOP-TIENDA &nbsp;|&nbsp;
+        Base de datos: inventario.db</small
+      >
+    </div>
+
+    <div id="navbar">
+      <a href="/productos">&#9654; PRODUCTOS</a>
+      <a href="/ventas">&#9654; VENTAS</a>
+    </div>
+
+    <div id="content">
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for m in
+      messages %}
+      <div class="flash">&#9888; {{ m }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block body %}{% endblock %}
+    </div>
+
+    <div id="footer">
+      SISTEMA INVENTARIO v1.0 &copy; 2009 &nbsp;|&nbsp; Desarrollado por:
+      Informática El Progreso &nbsp;|&nbsp; Soporte: ext. 104 &nbsp;|&nbsp;
+      <b>NO CERRAR ESTA VENTANA SIN GUARDAR</b>
+    </div>
+  </body>
+</html>

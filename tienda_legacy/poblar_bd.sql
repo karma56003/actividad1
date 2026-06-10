@@ -1,0 +1,140 @@
+-- ============================================================
+--  SCRIPT DE POBLADO - SISTEMA INVENTARIO v1.0
+--  Tienda El Progreso
+--  Ejecutar SOLO UNA VEZ. Si falla, borrar inventario.db y volver a intentar.
+--  Última revisión: el practicante que ya no trabaja aquí
+-- ============================================================
+
+-- Crear tablas (igual que en el app, por si acaso)
+CREATE TABLE IF NOT EXISTS Productos (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre        TEXT,
+    categoria     TEXT,
+    precio        REAL,
+    stock         INTEGER,
+    proveedor     TEXT,
+    codigo        TEXT,
+    descripcion   TEXT,
+    fecha_ingreso TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Ventas (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    producto_id  INTEGER,
+    cantidad     INTEGER,
+    precio_venta REAL,
+    fecha        TEXT,
+    vendedor     TEXT,
+    cliente      TEXT,
+    notas        TEXT
+);
+
+-- ============================================================
+--  50 PRODUCTOS PLANOS
+-- ============================================================
+INSERT INTO Productos (nombre, categoria, precio, stock, proveedor, codigo, descripcion, fecha_ingreso) VALUES
+('Arroz Doña Pepa 1kg',        'Alimentos',        8.50,  120, 'Distribuidora Norte',   'PROD-001', 'Arroz largo fino, bolsa 1kg',                  '2024-01-10'),
+('Aceite Fino 1L',              'Alimentos',       15.00,   80, 'Importadora Sur',       'PROD-002', 'Aceite vegetal de soya botella 1 litro',        '2024-01-10'),
+('Azúcar Estándar 1kg',         'Alimentos',        7.00,  200, 'Ingenio Azucarero SA', 'PROD-003', 'Azúcar blanca refinada bolsa 1kg',              '2024-01-11'),
+('Sal Yodada 500g',             'Alimentos',        2.50,  150, 'Sal del Valle',         'PROD-004', 'Sal yodada fina bolsa 500g',                    '2024-01-11'),
+('Fideo Maravilla 500g',        'Alimentos',        5.00,   90, 'Distribuidora Norte',   'PROD-005', 'Fideo corbatita o cabello de ángel 500g',       '2024-01-12'),
+('Harina de Trigo 1kg',         'Alimentos',        6.50,  110, 'Molino Central',        'PROD-006', 'Harina blanca todo uso bolsa 1kg',              '2024-01-12'),
+('Leche Pil Entera 1L',         'Alimentos',        7.50,   60, 'Pil Andina',            'PROD-007', 'Leche entera pasteurizada caja 1L',             '2024-01-13'),
+('Atún Gustos 160g',            'Alimentos',        9.00,   75, 'Importadora Sur',       'PROD-008', 'Atún en aceite lata 160g',                      '2024-01-13'),
+('Café Yungas 200g',            'Alimentos',       18.00,   40, 'Café Yungas SRL',       'PROD-009', 'Café molido tostado bolsa 200g',                '2024-01-14'),
+('Galletas Oreo 120g',          'Alimentos',        8.00,   95, 'Importadora Sur',       'PROD-010', 'Galletas de chocolate rellenas 120g',           '2024-01-14'),
+('Refresco Cola 2L',            'Bebidas',         10.00,   55, 'Distribuidora Norte',   'PROD-011', 'Bebida gaseosa de cola botella 2L',             '2024-01-15'),
+('Agua Manantial 600ml',        'Bebidas',          3.00,  180, 'Aguas del Sur',         'PROD-012', 'Agua purificada sin gas botella 600ml',         '2024-01-15'),
+('Jugo Tampico 1L',             'Bebidas',         10.00,   70, 'Importadora Sur',       'PROD-013', 'Bebida de frutas mixtas caja 1L',               '2024-01-16'),
+('Cerveza Huari 620ml',         'Bebidas',         12.00,  100, 'CBN SA',                'PROD-014', 'Cerveza rubia botella retornable 620ml',        '2024-01-16'),
+('Té Supremo x20',              'Bebidas',          6.50,   85, 'Distribuidora Norte',   'PROD-015', 'Té negro en bolsitas caja x20 unidades',        '2024-01-17'),
+('Detergente Omo 1kg',          'Limpieza',        22.00,   50, 'Unilever Bolivia',      'PROD-016', 'Detergente en polvo para ropa 1kg',             '2024-01-17'),
+('Jabón Barra Omo 200g',        'Limpieza',         5.50,  130, 'Unilever Bolivia',      'PROD-017', 'Jabón en barra para ropa 200g',                 '2024-01-18'),
+('Limpiapisos Pino 1L',         'Limpieza',        12.00,   45, 'Química Andina',        'PROD-018', 'Limpiador de pisos aroma pino botella 1L',      '2024-01-18'),
+('Cloro Blanqueador 1L',        'Limpieza',         8.00,   60, 'Química Andina',        'PROD-019', 'Blanqueador doméstico concentrado 1L',          '2024-01-19'),
+('Esponja Scotch-Brite',        'Limpieza',         4.00,  200, 'Distribuidora Norte',   'PROD-020', 'Esponja fibra verde para fregar unidad',        '2024-01-19'),
+('Shampoo Head&Shoulders 400ml','Higiene Personal', 35.00,   30, 'P&G Bolivia',          'PROD-021', 'Shampoo anticaspa 400ml',                       '2024-01-20'),
+('Jabón Dove 90g',              'Higiene Personal', 8.00,  110, 'Unilever Bolivia',      'PROD-022', 'Jabón de tocador con humectante 90g',           '2024-01-20'),
+('Pasta Dental Colgate 75ml',   'Higiene Personal', 9.50,   90, 'Distribuidora Norte',   'PROD-023', 'Pasta dental triple acción 75ml',               '2024-01-21'),
+('Desodorante Rexona 150ml',    'Higiene Personal',22.00,   55, 'Unilever Bolivia',      'PROD-024', 'Desodorante aerosol 48h 150ml',                 '2024-01-21'),
+('Papel Higiénico Suave x4',    'Higiene Personal',14.00,   80, 'PAPELBOL SA',           'PROD-025', 'Papel higiénico doble hoja paquete x4 rollos',  '2024-01-22'),
+('Pila AA Duracell x2',         'Electrónica',     14.00,   65, 'Importadora Sur',       'PROD-026', 'Pilas alcalinas AA paquete x2',                 '2024-01-22'),
+('Foco LED 9W',                 'Electrónica',     18.00,   40, 'Electro Luz SRL',       'PROD-027', 'Foco LED ahorro energía E27 9W luz blanca',     '2024-01-23'),
+('Cable USB-C 1m',              'Electrónica',     25.00,   35, 'TechImport',            'PROD-028', 'Cable carga y datos USB-C 1 metro',             '2024-01-23'),
+('Auriculares Básicos',         'Electrónica',     40.00,   20, 'TechImport',            'PROD-029', 'Auriculares con micrófono jack 3.5mm',          '2024-01-24'),
+('Regleta 4 tomas 1.5m',        'Electrónica',     55.00,   15, 'Electro Luz SRL',       'PROD-030', 'Regleta eléctrica 4 enchufes cable 1.5m',       '2024-01-24'),
+('Camiseta Algodón Hombre M',   'Ropa',            45.00,   25, 'Confecciones Andinas',  'PROD-031', 'Camiseta algodón 100% cuello redondo talla M',  '2024-01-25'),
+('Calcetines Hombre x3 pares',  'Ropa',            20.00,   60, 'Confecciones Andinas',  'PROD-032', 'Pack 3 pares calcetines algodón negro',         '2024-01-25'),
+('Cinturón Cuero Negro L',      'Ropa',            65.00,   18, 'Marroquinería LP',      'PROD-033', 'Cinturón cuero genuino negro talla L',          '2024-01-26'),
+('Gorra Visera Ajustable',      'Ropa',            30.00,   40, 'Confecciones Andinas',  'PROD-034', 'Gorra visera color azul ajuste velcro',         '2024-01-26'),
+('Medias Dama Nylon x5',        'Ropa',            15.00,   70, 'Confecciones Andinas',  'PROD-035', 'Medias nylon transparente talla única x5',      '2024-01-27'),
+('Cuaderno Espiral 100hj',      'Papelería',       12.00,  150, 'Copagraph SA',          'PROD-036', 'Cuaderno espiral cuadriculado 100 hojas',       '2024-01-27'),
+('Bolígrafo Bic Azul x10',      'Papelería',       15.00,  200, 'Copagraph SA',          'PROD-037', 'Bolígrafos bic punto medio azul caja x10',     '2024-01-28'),
+('Pegamento Adhesivo 100ml',    'Papelería',        6.00,   80, 'Distribuidora Norte',   'PROD-038', 'Pegamento escolar blanco frasco 100ml',         '2024-01-28'),
+('Tijera Escolar 16cm',         'Papelería',        8.50,   90, 'Copagraph SA',          'PROD-039', 'Tijera punta redonda acero inoxidable 16cm',    '2024-01-29'),
+('Resma Papel A4 75g',          'Papelería',       45.00,   35, 'PAPELBOL SA',           'PROD-040', 'Resma papel bond A4 75 gramos 500 hojas',       '2024-01-29'),
+('Clavo 2" 1kg',                'Ferretería',      12.00,   70, 'Ferretería Central',    'PROD-041', 'Clavos de acero 2 pulgadas bolsa 1kg',          '2024-01-30'),
+('Cinta Masking Tape 18mm',     'Ferretería',       6.00,  100, 'Ferretería Central',    'PROD-042', 'Cinta adhesiva masking tape 18mm x 40m',        '2024-01-30'),
+('Tornillo 1" Bolsa x50',       'Ferretería',       8.00,   85, 'Ferretería Central',    'PROD-043', 'Tornillos autorroscantes 1 pulgada bolsa 50u',  '2024-01-31'),
+('Pintura Blanca 1L',           'Ferretería',      28.00,   30, 'Pinturas Andinas SA',   'PROD-044', 'Pintura látex blanca interior litro',           '2024-01-31'),
+('Candado 40mm',                'Ferretería',      35.00,   22, 'Ferretería Central',    'PROD-045', 'Candado seguridad arco 40mm con llave',         '2024-02-01'),
+('Muñeca Bebé 30cm',            'Juguetes',        45.00,   18, 'ToyImport',             'PROD-046', 'Muñeca bebé vinilo ojos movibles 30cm',         '2024-02-01'),
+('Auto de Carreras Metal',      'Juguetes',        30.00,   25, 'ToyImport',             'PROD-047', 'Auto juguete fundición metal escala 1:36',      '2024-02-02'),
+('Rompecabezas 500 pzs',        'Juguetes',        55.00,   12, 'ToyImport',             'PROD-048', 'Rompecabezas paisaje 500 piezas caja',          '2024-02-02'),
+('Pelota Fútbol N°5',           'Juguetes',        65.00,   14, 'Sport Bolivia',         'PROD-049', 'Pelota fútbol cuero sintético N°5 cosida',      '2024-02-03'),
+('Tarjeta de Cumpleaños',       'Otros',            4.00,  300, 'Papelería La Paz',      'PROD-050', 'Tarjeta de felicitación cumpleaños surtida',    '2024-02-03');
+
+-- ============================================================
+--  50 VENTAS PLANAS (sin FK declarada, solo el número)
+-- ============================================================
+INSERT INTO Ventas (producto_id, cantidad, precio_venta, fecha, vendedor, cliente, notas) VALUES
+(1,  5,  8.50,  '2024-03-01', 'Juan Mamani',   'Roberto Sánchez',  'Pago en efectivo'),
+(2,  2, 15.00,  '2024-03-01', 'Carlos Quispe', 'Al contado',        NULL),
+(3,  3,  7.00,  '2024-03-02', 'María López',   'Tienda Doña Rosa', 'Factura 001'),
+(4, 10,  2.50,  '2024-03-02', 'Juan Mamani',   'Al contado',        NULL),
+(5,  4,  5.00,  '2024-03-03', 'Pedro Flores',  'Mercado Central',  'Descuento 5%'),
+(6,  2,  6.50,  '2024-03-03', 'Ana Condori',   'Lucía Mamani',     NULL),
+(7,  6,  7.50,  '2024-03-04', 'Carlos Quispe', 'Al contado',        NULL),
+(8,  3,  9.00,  '2024-03-04', 'Juan Mamani',   'Al contado',       'Promo 3x2'),
+(9,  1, 18.00,  '2024-03-05', 'María López',   'Ernesto Vargas',   NULL),
+(10, 4,  8.00,  '2024-03-05', 'Pedro Flores',  'Al contado',        NULL),
+(11, 2, 10.00,  '2024-03-06', 'Ana Condori',   'Al contado',        NULL),
+(12,12,  3.00,  '2024-03-06', 'Juan Mamani',   'Kiosco El Sol',    'Factura 002'),
+(13, 3, 10.00,  '2024-03-07', 'Carlos Quispe', 'Al contado',        NULL),
+(14, 6, 12.00,  '2024-03-07', 'María López',   'Club Deportivo',   NULL),
+(15, 2,  6.50,  '2024-03-08', 'Pedro Flores',  'Al contado',        NULL),
+(16, 1, 22.00,  '2024-03-08', 'Ana Condori',   'Verónica Cruz',    NULL),
+(17, 5,  5.50,  '2024-03-09', 'Juan Mamani',   'Al contado',        NULL),
+(18, 2, 12.00,  '2024-03-09', 'Carlos Quispe', 'Colegio San Luis', 'Nota de pedido 07'),
+(19, 3,  8.00,  '2024-03-10', 'María López',   'Al contado',        NULL),
+(20,10,  4.00,  '2024-03-10', 'Pedro Flores',  'Ferretería Rápida','Factura 003'),
+(21, 1, 35.00,  '2024-03-11', 'Ana Condori',   'Al contado',        NULL),
+(22, 4,  8.00,  '2024-03-11', 'Juan Mamani',   'Al contado',        NULL),
+(23, 2,  9.50,  '2024-03-12', 'Carlos Quispe', 'Daniel Flores',    NULL),
+(24, 1, 22.00,  '2024-03-12', 'María López',   'Al contado',        NULL),
+(25, 3, 14.00,  '2024-03-13', 'Pedro Flores',  'Hospedaje Central','Factura 004'),
+(26, 4, 14.00,  '2024-03-13', 'Ana Condori',   'Al contado',        NULL),
+(27, 5, 18.00,  '2024-03-14', 'Juan Mamani',   'Condominio B4',    NULL),
+(28, 2, 25.00,  '2024-03-14', 'Carlos Quispe', 'Al contado',        NULL),
+(29, 1, 40.00,  '2024-03-15', 'María López',   'Al contado',        NULL),
+(30, 1, 55.00,  '2024-03-15', 'Pedro Flores',  'Oficina Quispe',   'Garantía 30 días'),
+(31, 2, 45.00,  '2024-03-16', 'Ana Condori',   'Al contado',        NULL),
+(32, 3, 20.00,  '2024-03-16', 'Juan Mamani',   'Al contado',        NULL),
+(33, 1, 65.00,  '2024-03-17', 'Carlos Quispe', 'Hugo Torrez',      NULL),
+(34, 2, 30.00,  '2024-03-17', 'María López',   'Al contado',        NULL),
+(35, 5, 15.00,  '2024-03-18', 'Pedro Flores',  'Al contado',        NULL),
+(36, 8, 12.00,  '2024-03-18', 'Ana Condori',   'Colegio San Luis', 'Factura 005'),
+(37,20, 15.00,  '2024-03-19', 'Juan Mamani',   'Colegio San Luis', 'Factura 005'),
+(38, 3,  6.00,  '2024-03-19', 'Carlos Quispe', 'Al contado',        NULL),
+(39, 4,  8.50,  '2024-03-20', 'María López',   'Al contado',        NULL),
+(40, 2, 45.00,  '2024-03-20', 'Pedro Flores',  'Imprenta Rápida',  'Factura 006'),
+(41,10, 12.00,  '2024-03-21', 'Ana Condori',   'Maestro Gonzales', 'Boleta'),
+(42, 5,  6.00,  '2024-03-21', 'Juan Mamani',   'Al contado',        NULL),
+(43, 6,  8.00,  '2024-03-22', 'Carlos Quispe', 'Al contado',        NULL),
+(44, 2, 28.00,  '2024-03-22', 'María López',   'Inquilino 4B',     NULL),
+(45, 1, 35.00,  '2024-03-23', 'Pedro Flores',  'Al contado',        NULL),
+(46, 1, 45.00,  '2024-03-23', 'Ana Condori',   'Claudia Quispe',   'Regalo cumpleaños'),
+(47, 2, 30.00,  '2024-03-24', 'Juan Mamani',   'Al contado',        NULL),
+(48, 1, 55.00,  '2024-03-24', 'Carlos Quispe', 'Al contado',        NULL),
+(49, 1, 65.00,  '2024-03-25', 'María López',   'Club Deportivo',   'Factura 007'),
+(50,15,  4.00,  '2024-03-25', 'Pedro Flores',  'Papelería Central','Al por mayor');

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h2>&#9632; {{ accion | upper }} PRODUCTO</h2>
+
+<a href="/productos" class="btn btn-new" style="background:#555;margin-bottom:10px;">&#8592; VOLVER AL LISTADO</a>
+
+<div class="form-table">
+    <form method="POST">
+        <table>
+            <tr>
+                <td><label>Código:</label></td>
+                <td><input type="text" name="codigo" value="{{ producto['codigo'] if producto else '' }}" required maxlength="20"></td>
+            </tr>
+            <tr>
+                <td><label>Nombre:</label></td>
+                <td><input type="text" name="nombre" value="{{ producto['nombre'] if producto else '' }}" required maxlength="100"></td>
+            </tr>
+            <tr>
+                <td><label>Categoría:</label></td>
+                <td>
+                    <select name="categoria">
+                        {% set cats = ['Alimentos','Bebidas','Limpieza','Higiene Personal','Electrónica','Ropa','Papelería','Ferretería','Juguetes','Otros'] %}
+                        {% for c in cats %}
+                            <option value="{{ c }}" {% if producto and producto['categoria'] == c %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Precio (Bs.):</label></td>
+                <td><input type="number" name="precio" step="0.01" min="0" value="{{ producto['precio'] if producto else '' }}" required></td>
+            </tr>
+            <tr>
+                <td><label>Stock:</label></td>
+                <td><input type="number" name="stock" min="0" value="{{ producto['stock'] if producto else '' }}" required></td>
+            </tr>
+            <tr>
+                <td><label>Proveedor:</label></td>
+                <td><input type="text" name="proveedor" value="{{ producto['proveedor'] if producto else '' }}" maxlength="80"></td>
+            </tr>
+            <tr>
+                <td><label>Descripción:</label></td>
+                <td><textarea name="descripcion">{{ producto['descripcion'] if producto else '' }}</textarea></td>
+            </tr>
+            <tr>
+                <td><label>Fecha Ingreso:</label></td>
+                <td><input type="date" name="fecha_ingreso" value="{{ producto['fecha_ingreso'] if producto else '' }}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit" class="btn btn-save">GUARDAR REGISTRO</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<br><br><br>
+{% endblock %}
